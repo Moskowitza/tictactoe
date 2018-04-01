@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+</head>
+
+<body>
+    <div class="row">
+        <div id="a1" class=" square col s3">a1</div>
+        <div id="a2" class=" square col s3">a2</div>
+        <div id="a3" class=" square col s3">a3</div>
+    </div>
+    <div class="row">
+        <div id="b1" class="square col s3">b1</div>
+        <div id="b2" class="square col s3">b2</div>
+        <div id="b3" class="square col s3">b3</div>
+    </div>
+    <div class="row">
+        <div id="c1" class="square col s3">c1</div>
+        <div id="c2" class="square col s3">c2</div>
+        <div id="c3" class="square col s3">c3</div>
+    </div>
+    <script>
+$(".square").on("click", function(){
+    $(this).html("X");
+    var selectionArray=[];
+    var pick=$(this).attr("id");
+    selectionArray.push(pick);
+    console.log(selectionArray);
+})
+//on click of a  .square 
+//this element html is now x
+    </script>
+
+</body>
+
+</html>
