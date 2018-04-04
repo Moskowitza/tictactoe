@@ -27,15 +27,61 @@
         <div id="c3" class="square col s3">c3</div>
     </div>
     <script>
-$(".square").on("click", function(){
-    $(this).html("X");
-    var selectionArray=[];
-    var pick=$(this).attr("id");
-    selectionArray.push(pick);
-    console.log(selectionArray);
-})
-//on click of a  .square 
-//this element html is now x
+
+        var possitionsArr = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3'];
+        var winA = ['a1', 'a2', 'a3'];
+        var winB = ['b1', 'b2', 'b3'];
+        var winC = ['c1', 'c2', 'c3'];
+        var win1 = ['a1', 'b1', 'c1'];
+        var win2 = ['a2', 'a2', 'c2'];
+        var win3 = ['a3', 'b3', 'c3'];
+        var diag1 = ['a1', 'b2', 'c3'];
+        var diag2 = ['a3', 'b2', 'c1'];
+        var computerPick = [];//player 2
+        var selectionArray = [];//declare this outside the click event to prevent being over written
+        //go through the available positions and remove the position selected.
+        var compID="";
+        //remove selected ID from possitions array
+        function spacesLeft(x) {
+            for (var i = possitionsArr.length - 1; i >= 0; i--) {
+                if (possitionsArr[i] === x) {
+                    possitionsArr.splice(i, 1);
+                }
+            }
+        }
+        function computersTurn() {
+            var remainder = possitionsArr.length //number of spaces left
+            //pick a random number from 0-remainder
+            var compPick = Math.floor(Math.random(remainder) + 0);
+            //use compPick to select which position will be marked o
+            var compID = possitionsArr[compPick];
+            console.log("compID:"+compID);
+            // place an O 
+            $("#" + compID + "").html("O");
+            spacesLeft(compID);
+            // put the compID value into the computers pick array
+            computerPick.push(compID);
+        }
+
+
+        $(".square").on("click", function () {
+            console.log(possitionsArr);
+            //selection array is player1s positions
+            $(this).html("X");
+            pick = $(this).attr("id");
+            console.log("pick"+pick)
+            selectionArray.push(pick);
+            spacesLeft(pick);
+            console.log(selectionArray);
+            console.log(possitionsArr);
+            computersTurn();
+            
+            console.log(possitionsArr);
+        })
+
+        //check winning conditions
+        //if 
+
     </script>
 
 </body>
