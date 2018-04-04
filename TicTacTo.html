@@ -51,8 +51,10 @@
         }
         function computersTurn() {
             var remainder = possitionsArr.length //number of spaces left
+            console.log(remainder)
             //pick a random number from 0-remainder
-            var compPick = Math.floor(Math.random(remainder) + 0);
+            var compPick = Math.floor(Math.random() * remainder) + 1;
+            console.log(compPick)
             //use compPick to select which position will be marked o
             var compID = possitionsArr[compPick];
             console.log("compID:"+compID);
@@ -61,22 +63,21 @@
             spacesLeft(compID);
             // put the compID value into the computers pick array
             computerPick.push(compID);
+            computerPick.sort();
         }
-
-
         $(".square").on("click", function () {
-            console.log(possitionsArr);
             //selection array is player1s positions
             $(this).html("X");
             pick = $(this).attr("id");
             console.log("pick"+pick)
             selectionArray.push(pick);
             spacesLeft(pick);
+            computersTurn();
+            computerPick.sort();
+            selectionArray.sort();
             console.log(selectionArray);
             console.log(possitionsArr);
-            computersTurn();
-            
-            console.log(possitionsArr);
+            console.log(computerPick)
         })
 
         //check winning conditions
