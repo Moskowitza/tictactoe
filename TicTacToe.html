@@ -40,24 +40,25 @@
         var computerPick = [];//player 2
         var selectionArray = [];//declare this outside the click event to prevent being over written
         //go through the available positions and remove the position selected.
-        var compID="";
-        //remove selected ID from possitions array
+        var compID = "";
+        //remove selected ID from REMAINING possitions array
         function spacesLeft(x) {
             for (var i = possitionsArr.length - 1; i >= 0; i--) {
                 if (possitionsArr[i] === x) {
-                    possitionsArr.splice(i, 1);
+                    var remainder = possitionsArr.splice(i, 1);
+                    console.log("remainder"+remainder); //this looks like the selected square
                 }
             }
         }
         function computersTurn() {
-            var remainder = possitionsArr.length //number of spaces left
-            console.log(remainder)
+            var remainder = possitionsArr.length - 1 //number of spaces left
+            console.log("number of spaces left to play" + remainder)
             //pick a random number from 0-remainder
             var compPick = Math.floor(Math.random() * remainder) + 1;
-            console.log(compPick)
+            console.log("random number from comp pick" + compPick)
             //use compPick to select which position will be marked o
             var compID = possitionsArr[compPick];
-            console.log("compID:"+compID);
+            console.log("compID:" + compID);
             // place an O 
             $("#" + compID + "").html("O");
             spacesLeft(compID);
@@ -65,19 +66,49 @@
             computerPick.push(compID);
             computerPick.sort();
         }
+        function checkPlayerWin() {
+            console.log("checking for a win")
+            console.log(winA);
+            // for (i = 0; i < 3; i++) {//what are we doing here? Check each position?
+            if (selectionArray[1] === winA[1]) {
+                winA.pop("a1");
+                console.log(winA)
+
+            }
+            if (winA.length === 0) { console.log("you win") }
+        }
+        // }
+        function checkTie() {
+            if (possitionsArr.lenght === 0) {
+                console.log("a tie, reset the boardß")
+            }
+        }
+        //this wont work because selection Array may be longer than 3
+        // || selectionArray===winB
+        // || selectionArray===winC
+        // || selectionArray===win1
+        // || selectionArray===win2
+        // || selectionArray===win3
+        // || selectionArray===diag1
+        // || selectionArray===diag2
+
         $(".square").on("click", function () {
             //selection array is player1s positions
             $(this).html("X");
             pick = $(this).attr("id");
-            console.log("pick"+pick)
+            console.log("pick" + pick)
             selectionArray.push(pick);
+
             spacesLeft(pick);
-            computersTurn();
-            computerPick.sort();
+
             selectionArray.sort();
-            console.log(selectionArray);
-            console.log(possitionsArr);
-            console.log(computerPick)
+            console.log("selectionArray " + selectionArray);
+            computersTurn();
+            checkPlayerWin();
+            computerPick.sort();
+            console.log("selectionArray " + selectionArray + typeof selectionArray);
+            console.log("positions " + possitionsArr);
+            console.log("computer pick " + computerPick)
         })
 
         //check winning conditions

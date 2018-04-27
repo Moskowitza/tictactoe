@@ -1,0 +1,104 @@
+<html>
+
+<head>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+</head>
+
+<body>
+    <div class="row">
+        <div id="a1" class=" square col s3">a1</div>
+        <div id="a2" class=" square col s3">a2</div>
+        <div id="a3" class=" square col s3">a3</div>
+    </div>
+    <div class="row">
+        <div id="b1" class="square col s3">b1</div>
+        <div id="b2" class="square col s3">b2</div>
+        <div id="b3" class="square col s3">b3</div>
+    </div>
+    <div class="row">
+        <div id="c1" class="square col s3">c1</div>
+        <div id="c2" class="square col s3">c2</div>
+        <div id="c3" class="square col s3">c3</div>
+    </div>
+    <script>
+        //all positions
+        var possitionsArr = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3'];
+        var winA = ['a1', 'a2', 'a3'];
+        var winB = ['b1', 'b2', 'b3'];
+        var winC = ['c1', 'c2', 'c3'];
+        var win1 = ['a1', 'b1', 'c1'];
+        var win2 = ['a2', 'a2', 'c2'];
+        var win3 = ['a3', 'b3', 'c3'];
+        var diag1 = ['a1', 'b2', 'c3'];
+        var diag2 = ['a3', 'b2', 'c1'];
+        var computerPick = [];//player 2
+        var playerPick = [];//declare this outside the click event to prevent being over written
+        //go through the available positions and remove the position selected.
+        var compID = "";
+        //remove selected ID from REMAINING possitions array
+
+
+        function checkPlayerWin() {
+            console.log("checking for a win")
+            console.log(winA);
+            // for (i = 0; i < 3; i++) {//what are we doing here? Check each position?
+            if (playerPick[1] === winA[1]) {
+                winA.pop("a1");
+                console.log(winA)
+
+            }
+            if (winA.length === 0) { console.log("you win") }
+        }
+        // }
+        function checkTie() {
+            if (possitionsArr.length === 0) {
+                console.log("a tie, reset the boardß")
+            }
+        }
+
+        //Game Play
+        $(".square").on("click", function () {//player clicks square
+
+            $(this).html("X"); //replace the inner HTML with an X
+            var pick = $(this).attr("id"); //the pick is defined
+            console.log("pick" + pick) //
+            playerPick.push(pick); //push the pick into a selection array
+            possitionsArr.pop(pick);//remove it from available selection
+            playerPick.sort();//sort selection array 
+            computersTurn(); //computer takes a turn
+            checkStatus(); //we check to see if there is a win, tie or lose
+        })
+
+        function computersTurn() {
+            var compPick = Math.floor(Math.random() * (possitionsArr.length + 1));//random positionpicker
+            var compID = possitionsArr[compPick];
+            $("#" + compID + "").html("O");
+            computerPick.push(compID);
+            computerPick.sort();
+            possitionsArr.pop(compID);
+        }
+        function checkStatus() {
+        //compare playerPick to winning arrays 
+        // if player pick has index of winning array => Win
+        console.log("player picks "+playerPick.join(""));
+        console.log("computer Pick "+computerPick.join(""));
+        console.log("winA "+winA.join(""));
+        var playerCheck = playerPick.join("").indexOf(winA.join(""));
+        console.log("playerCheck "+playerCheck)
+        if(playerCheck>=0){console.log("you win")}
+        var computerCheck = computerPick.indexOf(winA.join(""));
+        if(computerCheck){console.log("computer win")}
+        //
+        }
+
+    </script>
+
+</body>
+
+</html>
