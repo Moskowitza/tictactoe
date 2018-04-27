@@ -29,14 +29,16 @@
     <script>
         //all positions
         var possitionsArr = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'c1', 'c2', 'c3'];
-        var winA = ['a1', 'a2', 'a3'];
-        var winB = ['b1', 'b2', 'b3'];
-        var winC = ['c1', 'c2', 'c3'];
-        var win1 = ['a1', 'b1', 'c1'];
-        var win2 = ['a2', 'a2', 'c2'];
-        var win3 = ['a3', 'b3', 'c3'];
-        var diag1 = ['a1', 'b2', 'c3'];
-        var diag2 = ['a3', 'b2', 'c1'];
+        solutions = {
+            1: ['a1', 'a2', 'a3'],
+            2: ['b1', 'b2', 'b3'],
+            3: ['c1', 'c2', 'c3'],
+            4: ['a1', 'b1', 'c1'],
+            5: ['a2', 'a2', 'c2'],
+            6: ['a3', 'b3', 'c3'],
+            // diag1: ['a1', 'b2', 'c3'],
+            // diag2: ['a3', 'b2', 'c1'],
+        }
         var computerPick = [];//player 2
         var playerPick = [];//declare this outside the click event to prevent being over written
         //go through the available positions and remove the position selected.
@@ -44,33 +46,17 @@
         //remove selected ID from REMAINING possitions array
 
 
-        function checkPlayerWin() {
-            console.log("checking for a win")
-            console.log(winA);
-            // for (i = 0; i < 3; i++) {//what are we doing here? Check each position?
-            if (playerPick[1] === winA[1]) {
-                winA.pop("a1");
-                console.log(winA)
-
-            }
-            if (winA.length === 0) { console.log("you win") }
-        }
-        // }
-        function checkTie() {
-            if (possitionsArr.length === 0) {
-                console.log("a tie, reset the boardß")
-            }
-        }
-
         //Game Play
-        $(".square").on("click", function () {//player clicks square
 
+        $(".square").on("click", function () {//player clicks square
             $(this).html("X"); //replace the inner HTML with an X
             var pick = $(this).attr("id"); //the pick is defined
-            console.log("pick" + pick) //
+            console.log("pick "+ pick);
+            $('#' + pick).attr( "onclick","disabled");//disable button??
             playerPick.push(pick); //push the pick into a selection array
             possitionsArr.pop(pick);//remove it from available selection
             playerPick.sort();//sort selection array 
+            $("#"+pick).attr('disabled','disabled');
             computersTurn(); //computer takes a turn
             checkStatus(); //we check to see if there is a win, tie or lose
         })
@@ -78,23 +64,28 @@
         function computersTurn() {
             var compPick = Math.floor(Math.random() * (possitionsArr.length + 1));//random positionpicker
             var compID = possitionsArr[compPick];
-            $("#" + compID + "").html("O");
+            $("#" + compID).html("O");
+            $('#' + compID).attr("onclick","disabled");//disable button??
             computerPick.push(compID);
             computerPick.sort();
+            $("#"+compID).attr('disabled','disabled');
             possitionsArr.pop(compID);
         }
         function checkStatus() {
-        //compare playerPick to winning arrays 
-        // if player pick has index of winning array => Win
-        console.log("player picks "+playerPick.join(""));
-        console.log("computer Pick "+computerPick.join(""));
-        console.log("winA "+winA.join(""));
-        var playerCheck = playerPick.join("").indexOf(winA.join(""));
-        console.log("playerCheck "+playerCheck)
-        if(playerCheck>=0){console.log("you win")}
-        var computerCheck = computerPick.indexOf(winA.join(""));
-        if(computerCheck){console.log("computer win")}
-        //
+            console.log("player picks " + playerPick.join(""));
+            console.log("computer Pick " + computerPick.join(""));
+
+            for (i = 0; i < solutions.length; i++) {
+                //compare playerPick to winning arrays 
+                // if player pick has index of winning array => Win
+                var winningString = solutions[i].join("");
+                console.log("winning string " + winningString);
+                var playerCheck = playerPick.join("").indexOf(winningString);
+                if (playerCheck >= 0) { console.log("you win") }
+                var computerCheck = computerPick.indexOf(winningString);
+                if (computerCheck >= 0) { console.log("computer win") }
+                //
+            }
         }
 
     </script>
